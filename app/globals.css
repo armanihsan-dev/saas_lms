@@ -219,6 +219,9 @@ body {
   .my-flex {
     @apply flex items-center ;
   }
+  .flex-b {
+    @apply flex justify-between items-center;
+  }
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
