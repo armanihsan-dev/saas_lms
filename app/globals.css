@@ -216,6 +216,9 @@ body {
 }
 
 @layer utilities {
+  .my-flex {
+    @apply flex items-center ;
+  }
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
