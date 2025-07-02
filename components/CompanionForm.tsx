@@ -23,6 +23,10 @@ import {
 } from "@/components/ui/select";
 import { subjects } from "@/constants";
 import { Textarea } from "@/components/ui/textarea";
+import { createCompanion } from "@/lib/actions/companions.actions";
+import { redirect } from "next/navigation";
+import toast from "react-hot-toast";
+import { HashLoader } from "react-spinners";
 const formSchema = z.object({
   name: z.string().min(2, { message: "Companion is required." }),
   subject: z.string().min(2, { message: "Subject is required." }),
@@ -48,8 +52,15 @@ const CompanionForm = () => {
   });
 
   // 2. Define a submit handler.
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const companion = await createCompanion(values);
+    if (companion) {
+      toast.success("Companion created successfully");
+      redirect(`/companions/${companion.id}`);
+    } else {
+      toast.error("Failed to create a companion");
+      redirect("/");
+    }
   };
   return (
     <Form {...form}>
@@ -188,8 +199,19 @@ const CompanionForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full cursor-pointer">
-          Build Your Companion
+        <Button
+          type="submit"
+          className="w-full cursor-pointer"
+          disabled={form.formState.isSubmitting}
+        >
+          {form.formState.isSubmitting ? (
+            <div className="my-flex gap-2">
+              <HashLoader size={20} color={"#fafafa"} />
+              <span>Companion is creating ...</span>
+            </div>
+          ) : (
+            <span>Build Your Companion</span>
+          )}
         </Button>
       </form>
     </Form>
