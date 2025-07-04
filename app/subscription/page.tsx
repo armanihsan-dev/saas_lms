@@ -3,7 +3,7 @@ import { PricingTable } from "@clerk/nextjs";
 
 const Subscription = () => {
   return (
-    <div className="px-14">
+    <main>
       <PricingTable
         appearance={{
           variables: {
@@ -18,7 +18,7 @@ const Subscription = () => {
           },
         }}
       />
-    </div>
+    </main>
   );
 };
 export default Subscription;
